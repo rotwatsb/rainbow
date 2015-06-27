@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Comments</title>
+  </head>
+  <body>
+    <h1>{{ conversation_name }}</h1>
+    {% if conversation %}
+      {% if comments %}
+      <ul>
+	{% for comment in comments %}
+	<li>{{ comment.text }}</li>
+	{% endfor %}
+      </ul>
+      {% else %}
+        <strong>No comments</strong>
+      {% endif %}
+    {% else %}
+      The specified conversation doeddsn't exist!
+    {% endif %}
+    <br>
+    <a href="/comments/{{ conversation_name_slug }}/add_comment/">Leave a comment.</a>
+    <br>
+    <a href="/comments/">See all conversations.</a>
+  </body>
+</html>

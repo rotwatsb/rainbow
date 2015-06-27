@@ -1,0 +1,25 @@
+{% extends 'comments/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ conversation_name }}{% endblock %}
+
+{% block body_block %}
+<h1>Leave a Comment</h1>
+<form id="comment_form" method="post" action="{% url 'add_comment' conversation_name_slug %}">
+  {% csrf_token %}
+  Comment on {{ conversation_name_slug }}:
+  <br>
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+  
+  {% for field in form.visible_fields %}
+    {{ field.errors }}
+    {{ field.help_text }}
+    {{ field }}
+  {% endfor %}
+  
+  <input type="submit" name="submit" value="Create Comment" />
+</form>
+{% endblock %}

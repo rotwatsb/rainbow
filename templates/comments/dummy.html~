@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>This page might help</title>
+  </head>
+  <body>
+    <h1>{{ conversation_name_slug }}</h1>
+  </body>
+</html>

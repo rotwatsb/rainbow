@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add a conversation</title>
+  </head>
+  <body>
+    <h1>Add a conversation</h1>
+
+    <form id="conversation_form" method="post" action="/comments/add_conversation/">
+      {% csrf_token %}
+      {% for hidden in form.hidden_fields %}
+           {{ hidden }}
+      {% endfor %}
+      
+      {% for field in form.visible_fields %}
+           {{ field.errors }}
+           {{ field.help_text }}
+           {{ field }}
+      {% endfor %}
+
+      <input type="submit" name="submit" value="Create Conversation" />
+    </form>
+  </body>
+</html>

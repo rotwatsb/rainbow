@@ -1,0 +1,16 @@
+import os
+from comments.models import Comment
+
+def pop():
+    addcom("DragonBreath", "My beard is on fire.")
+
+def addcom(u, t):
+    c = Comment.objects.get_or_create(user=u,text=t,likes=0)[0]
+    return c
+
+if __name__=='__main__':
+    print "Starting Comments population script..."
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'comments_project.settings')
+
+
+pop()

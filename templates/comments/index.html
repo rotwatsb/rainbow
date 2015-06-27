@@ -1,0 +1,23 @@
+{% extends 'comments/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ conversation_name }}{% endblock %}
+
+{% block body_block %}
+<h1>Conversations:</h1>
+{% if conversations %}
+<ul>
+  {% for conversation in conversations %}
+  <li><a href="{% url 'conversation' conversation.slug %}">{{ conversation.time_created }}: {{ conversation.creator }}: {{ conversation.name }}: {{conversation.likes}}</a></li>
+  {% endfor %}
+</ul>
+{% else %}
+<strong>There are no conversations.</strong>
+{% endif %}
+{% if user.is_authenticated %}
+<a href="{% url 'add_conversation' %}">Create Conversation</a><br />
+{% endif %}
+<p>total site visits: {{ visits }}</p>
+{% endblock %}
+
