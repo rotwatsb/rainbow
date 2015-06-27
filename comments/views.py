@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 
-
+# this comment is also new
 def index(request):
 #    request.session.set_test_cookie()
     conversations_list = Conversation.objects.order_by('-likes')

@@ -3,7 +3,7 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 import datetime
 
-
+# this is a new comment
 # Create your models here.
 class Conversation(models.Model):
 
