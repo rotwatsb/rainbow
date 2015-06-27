@@ -18,11 +18,7 @@
     <![endif]-->
   </head>
   <body>
-    <div>
-      {% block body_block %}{% endblock %}
-    </div>
-    <hr />
-    <div>
+    <div class="page-header">
       <ul>
 	{% if user.is_authenticated %}
 	<li><a href="{% url 'auth_logout' %}?next=/comments/">Logout</a></li>
@@ -33,7 +29,9 @@
 	{% endif %}
       </ul>
     </div>
-
+    <div>
+      {% block body_block %}{% endblock %}
+    </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
