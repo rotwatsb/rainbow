@@ -3,7 +3,6 @@ from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 import datetime
 
-# this is a new comment
 # Create your models here.
 class Conversation(models.Model):
 
@@ -29,9 +28,11 @@ class Comment(models.Model):
     
     text = models.TextField(max_length=1024)
 
+    level = models.IntegerField(default=0)
+
     parent = models.ForeignKey('self', blank=True, null=True)
 
-    #children = models.ManyToManyField('self')
+    children = models.ManyToManyField('self')
 
     likes = models.IntegerField(default=0)
 

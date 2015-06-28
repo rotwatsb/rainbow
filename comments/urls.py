@@ -14,4 +14,6 @@ urlpatterns = patterns('',
     url(r'^add_conversation/$', views.add_conversation, name='add_conversation'),
     url(r'^(?P<conversation_name_slug>[\w\-]+)/$', views.conversation, name='conversation'),
     url(r'^(?P<conversation_name_slug>[\w\-]+)/add_comment/$', views.add_comment, name='add_comment'),
+    url(r'^(?P<conversation_name_slug>[\w\-]+)/add_comment/(?P<reply_to_id>null)/$', views.add_comment, name='add_comment'),
+    url(r'^(?P<conversation_name_slug>[\w\-]+)/add_comment/(?P<reply_to_id>[\d]+)/$', views.add_comment, name='add_comment'),
 )

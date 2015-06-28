@@ -79,8 +79,8 @@ def add_conversation(request):
     return render(request, 'comments/add_conversation.html', {'form' : conv_form})
 
 @login_required
-def add_comment(request, conversation_name_slug):
-    
+def add_comment(request, conversation_name_slug, reply_to_id="null"):
+
     try:
         conv = Conversation.objects.get(slug=conversation_name_slug)
     except Conversation.DoesNotExist:
@@ -94,7 +94,17 @@ def add_comment(request, conversation_name_slug):
                 comment.user = User.objects.get(username=request.user.username)
                 comment.conversation = conv
                 comment.likes = 0
+                comment.level = 0
+                comment.parent = None
                 comment.save()
+                if reply_to_id != "null":    
+                    parent_id = int(reply_to_id)
+                    comment.parent = Comment.objects.get(id=parent_id)
+                    comment.level = comment.parent.level + 1
+                    comment.parent.children.add(comment)
+                    #print comment.parent.text
+                    #print comment.level
+                    comment.save()
                 return HttpResponseRedirect(('/comments/' + conversation_name_slug + '/'))
         else:
             print form.errors
@@ -102,8 +112,8 @@ def add_comment(request, conversation_name_slug):
         form = CommentForm()
 
     #return dummy(request, conversation_name_slug)
-    
-    return render(request, 'comments/add_comment.html', {'form' : form, 'conversation_name_slug' : conversation_name_slug})
+    print reply_to_id
+    return render(request, 'comments/add_comment.html', {'form' : form, 'conversation_name_slug' : conversation_name_slug, 'reply_to_id' : reply_to_id})
 
 
 @login_required
