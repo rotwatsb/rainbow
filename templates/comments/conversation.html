@@ -4,14 +4,22 @@
 
 {% block title %}{{ conversation_name }}{% endblock %}
 
+{% block extra_head_scripts %}
+<script src="{% static "js/ulsort.js" %}"/></script>
+{% endblock %}
+
 {% block body_block %}
 <h1>{{ conversation_name }}</h1>
 {% if conversation %}
   {% if comments %}
-  <ul>
-    {% for comment in comments %}
-    <li>{{ comment.user.username }}: {{ comment.text }} <a href="{% url 'add_comment' conversation_name_slug comment.id %}">(reply)</a></li>
-    {% endfor %}
+  <ul id="comment_tree" class="media-list">
+      {% for comment in comments %}
+      <li class="media">
+	<div data-comment-level="{{ comment.level }}" data-comment-id="{{ comment.id }}" data-comment-parentid="{{ comment.parent.id }}" class="media-body">
+	  {{ comment.user.username }}: {{ comment.text }} <a href="{% url 'add_comment' conversation_name_slug comment.id %}">(reply)</a>
+	</div>
+      </li>
+      {% endfor %}
   </ul>
   {% else %}
   <strong>No comments</strong>
@@ -25,4 +33,7 @@ The specified conversation doeddsn't exist!
 <br>
 {% endif %}
 <a href="{% url 'index' %}">See all conversations.</a>
+<script>
+  sortComments(document.getElementById('comment_tree'));
+</script>
 {% endblock %}

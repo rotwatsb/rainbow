@@ -102,6 +102,7 @@ def add_comment(request, conversation_name_slug, reply_to_id="null"):
                     comment.parent = Comment.objects.get(id=parent_id)
                     comment.level = comment.parent.level + 1
                     comment.parent.children.add(comment)
+                    comment.parent.save()
                     #print comment.parent.text
                     #print comment.level
                     comment.save()
