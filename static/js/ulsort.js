@@ -1,38 +1,48 @@
-function sortComments(ul) {
-    var new_ul = ul.cloneNode(false);
-    var lis = [];
-    var all_divs = [];
+function sortComments(li) {
+    var new_li = li.cloneNode(false);
+    var nest_divs = [];
     var top_divs = [];
-    for(var i = ul.childNodes.length; i--;) {
-	var lichild = ul.childNodes[i];
-        if (lichild.nodeName === 'LI') {
-            lis.push(lichild);
-	    for(var j = lichild.childNodes.length; j--;) {
-		var divchild = lichild.childNodes[j];
-		if (divchild.nodeName === 'DIV') {
-		    all_divs.push(divchild);
-		    if (divchild.getAttribute('data-comment-level' == "0"))
-			top_divs.push(divchild);
-		    console.log(divchild.nodeName);
-		    console.log(divchild.nodeType);
-		    console.log(divchild.getAttribute('data-comment-level'));
-		}
-	    }
+ /*
+    for(var i = li.childNodes.length; i--;) {
+	console.log(li.childNodes[i].nodeType);
+	if (li.childNodes[i].nodeName === 'DIV') {
+	    if (li.childNodes[i].getAttribute('data-comment-level' == "0"))
+		top_divs.push(li.childNodes[i]);
+	    else
+		nest_divs.push(li.childNodes[i]);
 	}
     }
-    
-    addChil
-    for(var i = divs.length; i--;) {
-	
+    //console.log(top_divs.length);
+    for (var div in top_divs) {
+	console.log(div.nodeName);
+	console.log(div.nodeType);
+	console.log(div.getAttribute('data-comment-level'));
+
+	addChildren(div, nest_divs);
+	new_li.appendChild(div);
     }
+
+    
     //lis.sort(function(a, b) {
     //    return parseInt(b.childNodes[0].data , 10) - parseInt(a.childNodes[0].data , 10);
     //});
-    for(var i = 0; i < lis.length; i++)
-        new_ul.appendChild(lis[i]);
-    ul.parentNode.replaceChild(new_ul, ul);
+
+    li.parentNode.replaceChild(new_li, li);
+*/
 }
 
-function addChildren(divs, children) {
-
+function addChildren(par_div, lost_divs) {
+    var still_lost_divs = [];
+    var found_divs = [];
+    for(var div in lost_divs) {
+	if (div.getAttribute('data-comment-parentid') ==
+	    par_div.getAttribute('data-comment-id')) {
+	    par_div.appendChild(div);
+	    found_divs.push(div);
+	}
+	else
+	    still_lost_divs.push(div);
+    }
+    for (div in found_divs)
+	addChildren(div, still_lost_divs);
 }
