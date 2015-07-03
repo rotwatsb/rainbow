@@ -1,48 +1,43 @@
-function sortComments(li) {
-    var new_li = li.cloneNode(false);
-    var nest_divs = [];
-    var top_divs = [];
- /*
-    for(var i = li.childNodes.length; i--;) {
-	console.log(li.childNodes[i].nodeType);
-	if (li.childNodes[i].nodeName === 'DIV') {
-	    if (li.childNodes[i].getAttribute('data-comment-level' == "0"))
-		top_divs.push(li.childNodes[i]);
+function sortComments(ul) {
+    var new_ul = ul.cloneNode(false);
+    var nest_lis = [];
+    var top_lis = [];
+
+    for (var i = 0; i < ul.childNodes.length; i++) {
+	if (ul.childNodes[i].nodeName === 'LI') {
+	    if (ul.childNodes[i].getAttribute('data-comment-level') == "0")
+		top_lis.push(ul.childNodes[i]);
 	    else
-		nest_divs.push(li.childNodes[i]);
+		nest_lis.push(ul.childNodes[i]);
 	}
     }
-    //console.log(top_divs.length);
-    for (var div in top_divs) {
-	console.log(div.nodeName);
-	console.log(div.nodeType);
-	console.log(div.getAttribute('data-comment-level'));
 
-	addChildren(div, nest_divs);
-	new_li.appendChild(div);
+    for (var i = 0; i < top_lis.length; i++) {
+	addChildren(new_ul, top_lis[i], nest_lis);
+	new_ul.appendChild(top_lis[i]);
     }
 
-    
-    //lis.sort(function(a, b) {
-    //    return parseInt(b.childNodes[0].data , 10) - parseInt(a.childNodes[0].data , 10);
-    //});
-
-    li.parentNode.replaceChild(new_li, li);
-*/
+    ul.parentNode.replaceChild(new_ul, ul);
 }
 
-function addChildren(par_div, lost_divs) {
-    var still_lost_divs = [];
-    var found_divs = [];
-    for(var div in lost_divs) {
-	if (div.getAttribute('data-comment-parentid') ==
-	    par_div.getAttribute('data-comment-id')) {
-	    par_div.appendChild(div);
-	    found_divs.push(div);
+function addChildren(ul, top_li, lost_lis) {
+    var new_ul = ul.cloneNode(false);
+    var new_kids = []
+    var still_lost = [];
+    var hasChild = false;
+    for(var i = 0; i < lost_lis.length; i++) {
+	if (lost_lis[i].getAttribute('data-comment-parentid') ==
+	    top_li.getAttribute('data-comment-id')) {
+	    new_ul.appendChild(lost_lis[i]);
+	    new_kids.push(lost_lis[i]);
+	    hasChild = true;
 	}
 	else
-	    still_lost_divs.push(div);
+	    still_lost.push(lost_lis[i]);
     }
-    for (div in found_divs)
-	addChildren(div, still_lost_divs);
+    for (var i = 0; i < new_kids.length; i++)
+	addChildren(new_ul, new_kids[i], still_lost);
+    
+    if (hasChild)
+	top_li.appendChild(new_ul);
 }
